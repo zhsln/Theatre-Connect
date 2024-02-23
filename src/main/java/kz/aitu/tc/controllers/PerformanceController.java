@@ -1,0 +1,55 @@
+package kz.aitu.tc.controllers;
+
+import kz.aitu.tc.models.Performance;
+import kz.aitu.tc.services.interfaces.PerformanceServiceInterface;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("performances")
+
+public class PerformanceController {
+    private final PerformanceServiceInterface service;
+
+    public PerformanceController(PerformanceServiceInterface service) {
+        this.service = service;
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<Performance>> getAllBookings() {
+        List<Performance> performances = service.getAll();
+        return performances.isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(performances, HttpStatus.OK);
+    }
+
+    @GetMapping("/{performance_id}")
+    public ResponseEntity<Performance> getById(@PathVariable("performance_id") int id) {
+        Performance performance = service.getById(id);
+        return performance != null ? new ResponseEntity<>(performance, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<Performance> create(@RequestBody Performance performance){
+        Performance createdPerformance = service.create(performance);
+        return createdPerformance != null ? new ResponseEntity<>(createdPerformance, HttpStatus.CREATED) : new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @GetMapping("/title/{performance_title}")
+    public List<Performance> getAllByTitle(@PathVariable("performance_title") String title){
+        return service.getByTitle(title);
+    }
+
+    @DeleteMapping("/{performance_id}")
+    public ResponseEntity<Void> deleteById(@PathVariable("performance_id") int performance_id) {
+        boolean deleted = service.deleteById(performance_id);
+        return deleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/update/{performance_id}")
+    public ResponseEntity<Performance> update(@PathVariable("performance_id") int performance_id, @RequestBody Performance performance) {
+        Performance updatedPerformance = service.update(performance_id, performance);
+        return updatedPerformance != null ? new ResponseEntity<>(updatedPerformance, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+}
