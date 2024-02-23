@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -37,8 +38,15 @@ public class PerformanceController {
     }
 
     @GetMapping("/title/{performance_title}")
-    public List<Performance> getAllByTitle(@PathVariable("performance_title") String title){
-        return service.getByTitle(title);
+    public ResponseEntity<List<Performance>> getAllByTitle(@PathVariable("performance_title") String title){
+        List<Performance> performances = service.getByTitle(title);
+        return performances.isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(performances, HttpStatus.OK);
+    }
+
+    @GetMapping("/{date}")
+    public ResponseEntity<List<Performance>> getAllByDate(@PathVariable("date") LocalDate date) {
+        List<Performance> performances = service.getByDate(date);
+        return performances.isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(performances, HttpStatus.OK);
     }
 
     @DeleteMapping("/{performance_id}")

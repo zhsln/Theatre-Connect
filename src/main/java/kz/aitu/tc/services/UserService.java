@@ -40,6 +40,21 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
+    public List<User> getByName(String name) {
+        return repo.findByName(name);
+    }
+
+    @Override
+    public List<User> getEditors() {
+        return repo.findByEditorTrue();
+    }
+
+    @Override
+    public List<User> getManagers() {
+        return repo.findByManagerTrue();
+    }
+
+    @Override
     public boolean deleteById(int id) {
         if (repo.existsById(id)) {
             repo.deleteById(id);

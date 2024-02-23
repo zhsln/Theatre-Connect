@@ -3,10 +3,12 @@ package kz.aitu.tc.services;
 import kz.aitu.tc.models.Performance;
 import kz.aitu.tc.repositories.PerformanceRepositoryInterface;
 import kz.aitu.tc.services.interfaces.PerformanceServiceInterface;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -36,6 +38,11 @@ public class PerformanceService implements PerformanceServiceInterface {
     @Override
     public List<Performance> getByTitle(String title) {
         return repo.findByTitle(title);
+    }
+
+    @Override
+    public List<Performance> getByDate(LocalDate date) {
+        return repo.findByDate(date);
     }
 
     @Override

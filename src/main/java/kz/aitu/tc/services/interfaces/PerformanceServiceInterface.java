@@ -2,6 +2,7 @@ package kz.aitu.tc.services.interfaces;
 
 import kz.aitu.tc.models.Performance;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface PerformanceServiceInterface {
@@ -10,5 +11,6 @@ public interface PerformanceServiceInterface {
     boolean deleteById(int id);
     Performance getById(int id);
     List<Performance> getByTitle(String title);
+    List<Performance> getByDate(LocalDate date);
     List<Performance> getAll();
 }

@@ -11,8 +11,8 @@
     <groupId>kz.aitu</groupId>
     <artifactId>Theatre-Connect</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>SpringExampleProjectDemo</name>
-    <description>SpringExampleProjectDemo</description>
+    <name>Theatre-Connect</name>
+    <description>Web service system for theatre.</description>
     <properties>
         <java.version>17</java.version>
     </properties>

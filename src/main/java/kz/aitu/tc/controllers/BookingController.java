@@ -44,8 +44,6 @@ public class BookingController {
         return createdBooking != null ? new ResponseEntity<>(createdBooking, HttpStatus.CREATED) : new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
-
-
     @PutMapping("/update/{booking_id}")
     public ResponseEntity<Booking> update(@PathVariable("booking_id") int booking_id, @RequestBody Booking booking) {
         Booking updatedBooking = bookingService.update(booking_id, booking);

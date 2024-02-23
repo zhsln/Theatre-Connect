@@ -36,8 +36,27 @@ public class UserController {
     }
 
     @GetMapping("/surname/{user_surname}")
-    public List<User> getAllBySurname(@PathVariable("user_surname") String surname){
-        return service.getBySurname(surname);
+    public ResponseEntity<List<User>> getAllBySurname(@PathVariable("user_surname") String surname){
+        List<User> users = service.getBySurname(surname);
+        return users.isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @GetMapping("/name/{user_name}")
+    public ResponseEntity<List<User>> getAllByName(@PathVariable("user_name") String name) {
+        List<User> users = service.getByName(name);
+        return users.isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @GetMapping("/editors/")
+    public ResponseEntity<List<User>> getAllEditors() {
+        List<User> editors = service.getEditors();
+        return editors.isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(editors, HttpStatus.OK);
+    }
+
+    @GetMapping("/managers/")
+    public ResponseEntity<List<User>> getAllManagers() {
+        List<User> managers = service.getManagers();
+        return managers.isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(managers, HttpStatus.OK);
     }
 
     @DeleteMapping("/{user_id}")
