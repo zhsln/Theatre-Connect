@@ -47,7 +47,7 @@ public class PerformanceController {
     }
 
     // Get all performances by date.
-    @GetMapping("/{date}")
+    @GetMapping("/date/{date}")
     public ResponseEntity<List<Performance>> getAllByDate(@PathVariable("date") LocalDate date) {
         List<Performance> performances = service.getByDate(date);
         return performances.isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(performances, HttpStatus.OK);
