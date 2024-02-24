@@ -9,22 +9,26 @@ import lombok.Data;
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int bookingId;
+    private int bookingId; // Unique identifier for each booking.
 
+    // Define a many-to-one relationship between bookings and users.
+    // CascadeType.REMOVE means if a User is deleted, all their bookings are also deleted.
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User user; // The user who made the booking.
 
+    // Define a many-to-one relationship between bookings and performances.
+    // If a Performance is deleted, all related bookings are also deleted.
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "performance_id", nullable = false)
-    private Performance performance;
+    private Performance performance; // The performance that was booked.
 
     @Column(name = "seat_number")
-    private String seat_number; /*
-                                Seat number is String,
-                                because in theatre your seat can be, for example, in the balcony,
-                                and it should be noted by words in your ticket. And why it is called a number?
-                                Because seat can have information about rows and your seat number in a row.
-                                Example: "Parterre: Row 13, Seat 10" .
-                                */
+    private String seat_number; // Example: "Parterre: Row 13, Seat 10".
+    /*
+    Seat number is String, because seat information can be complex.
+    And why it is called a number?
+    Because seat can have information about rows and your seat number in a row.
+    Example: "Parterre: Row 13, Seat 10".
+    */
 }

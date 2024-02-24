@@ -9,11 +9,11 @@ import lombok.Data;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int id; // Unique identifier for each user.
     private String login;
     private String password;
     private String name;
     private String surname;
-    private boolean editor;
-    private boolean manager;
+    private boolean editor; // Editor is administrator that can upload and change performances in Database and Website.
+    private boolean manager; // Manager is administrator that can upload and change everything.
 }

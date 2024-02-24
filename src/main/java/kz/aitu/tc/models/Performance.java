@@ -12,10 +12,13 @@ import java.time.OffsetTime;
 public class Performance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int id; // Unique identifier for each performance.
     private String title;
     private LocalDate date; // yyyy-MM-dd
     private OffsetTime time; // HH:mm:ss + HH:mm (time with timezone)
     private int duration; // In minutes.
-    private String venue; // Venue means place of the event.
+    private String venue; /*
+                            Venue means place of the event.
+                            For example, "The State Opera and Ballet Theatre 'Astana Opera'".
+                          */
 }

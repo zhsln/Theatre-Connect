@@ -14,7 +14,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
-
 public class BookingService implements BookingServiceInterface {
     private final BookingRepositoryInterface bookingRepositoryInterface;
     private final UserServiceInterface userService;
@@ -22,35 +21,36 @@ public class BookingService implements BookingServiceInterface {
 
     public BookingService(BookingRepositoryInterface bookingRepositoryInterface,
                           UserServiceInterface userService,
-                          PerformanceServiceInterface performanceService)
-    {
+                          PerformanceServiceInterface performanceService) {
         this.bookingRepositoryInterface = bookingRepositoryInterface;
         this.userService = userService;
         this.performanceService = performanceService;
     }
 
+    // Create booking.
     @Override
     public Booking create(Booking booking) {
-        // Перед сохранением проверяем, что у booking есть связанные объекты User и Performance
+        // Check if User and Performance are linked before creating a booking.
         if (booking.getUser() == null || booking.getPerformance() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User and Performance are required for booking");
         }
 
-        // Пытаемся создать бронирование
         return bookingRepositoryInterface.save(booking);
     }
 
-
+    // Update information about booking.
     @Override
     public Booking update(int id, Booking booking) {
-        Booking updatedBooking = bookingRepositoryInterface.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        // Check if the booking exists before updating.
+        Booking updatedBooking = bookingRepositoryInterface.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
+        // Check is valid User and Performance IDs are provided.
         User user = userService.getById(booking.getUser().getId());
         Performance performance = performanceService.getById(booking.getPerformance().getId());
 
-        if (user == null || performance == null) {
+        if (user == null || performance == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid user or performance ID");
-        }
 
         updatedBooking.setUser(user);
         updatedBooking.setPerformance(performance);
@@ -59,32 +59,35 @@ public class BookingService implements BookingServiceInterface {
         return bookingRepositoryInterface.save(updatedBooking);
     }
 
-
+    // Delete the booking if it exists.
     @Override
     public boolean deleteById(int id) {
         if (bookingRepositoryInterface.existsById(id)) {
             bookingRepositoryInterface.deleteById(id);
             return true;
-        } else {
+        } else
             return false;
-        }
     }
 
+    // Get a booking by its ID.
     @Override
     public Booking getBookingById(int id) {
         return bookingRepositoryInterface.findById(id).orElse(null);
     }
 
+    // Get all bookings made by a specific user.
     @Override
     public List<Booking> getByUserId(int id) {
         return bookingRepositoryInterface.findByUserId(id);
     }
 
+    // Get all bookings for a specific performance.
     @Override
     public List<Booking> getByPerformanceId(int id) {
         return bookingRepositoryInterface.findByPerformanceId(id);
     }
 
+    // Get all bookings.
     @Override
     public List<Booking> getAll() {
         return bookingRepositoryInterface.findAll();
