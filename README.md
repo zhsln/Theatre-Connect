@@ -8,7 +8,9 @@ Theatre-Connect - your ideal web service to immerse yourself in the world of dra
 2. <a href = "https://www.postgresql.org/download/">Install PostgreSQL.</a>
 </p>
 <h2>Read about classes and their functionals</h2>
-<a href = "https://github.com/zhsln/theatre-connect/blob/master/documents/information%20about%20classes.txt">Click here.</a>
+<a href = "documents/Class desctiptions.md">Click here.</a>
+<h2>Postman Test Collection JSON</h2>
+<a href = "documents/Theatre-Connect.postman_collection.json">Click here to download</a>
 <h2>Authors</h2>
 <p>
 1. <a href = "https://github.com/zhsln">Abdigaliyev Zhasulan from SE-2304.</a> <br/>
