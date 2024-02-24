@@ -31,7 +31,7 @@ public class UserController {
         return user != null ? new ResponseEntity<>(user, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    // Create a new user.
+    // Create new user.
     @PostMapping("/")
     public ResponseEntity<User> create(@RequestBody User user){
         User createdUser = service.create(user);
