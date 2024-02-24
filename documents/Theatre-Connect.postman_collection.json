@@ -314,6 +314,14 @@
 					"response": []
 				},
 				{
+					"name": "getPerformanceByDate",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
 					"name": "getPerformanceByTitle",
 					"request": {
 						"method": "GET",
