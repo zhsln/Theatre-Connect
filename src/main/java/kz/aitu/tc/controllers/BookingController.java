@@ -1,5 +1,6 @@
 package kz.aitu.tc.controllers;
 
+import jakarta.validation.Valid;
 import kz.aitu.tc.models.Booking;
 import kz.aitu.tc.models.Performance;
 import kz.aitu.tc.models.User;
@@ -29,7 +30,7 @@ public class BookingController {
 
     // Create a new booking.
     @PostMapping("/")
-    public ResponseEntity<Booking> create(@RequestBody Booking booking) {
+    public ResponseEntity<Booking> create(@Valid @RequestBody Booking booking) {
         User user = userService.getById(booking.getUser().getId());
         Performance performance = performanceService.getById(booking.getPerformance().getId());
 
@@ -45,7 +46,7 @@ public class BookingController {
 
     // Update an existing booking by ID.
     @PutMapping("/update/{booking_id}")
-    public ResponseEntity<Booking> update(@PathVariable("booking_id") int booking_id, @RequestBody Booking booking) {
+    public ResponseEntity<Booking> update(@PathVariable("booking_id") int booking_id, @Valid @RequestBody Booking booking) {
         Booking updatedBooking = bookingService.update(booking_id, booking);
         return updatedBooking != null ? new ResponseEntity<>(updatedBooking, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
