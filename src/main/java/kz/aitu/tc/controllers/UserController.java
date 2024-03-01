@@ -1,5 +1,6 @@
 package kz.aitu.tc.controllers;
 
+import jakarta.validation.Valid;
 import kz.aitu.tc.models.User;
 import kz.aitu.tc.services.interfaces.UserServiceInterface;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,7 @@ public class UserController {
     }
 
     // Get all users from the database.
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = service.getAll();
         return users.isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(users, HttpStatus.OK);
@@ -31,9 +32,9 @@ public class UserController {
         return user != null ? new ResponseEntity<>(user, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    // Create new user.
-    @PostMapping("/")
-    public ResponseEntity<User> create(@RequestBody User user){
+    // Create a new user.
+    @PostMapping
+    public ResponseEntity<User> create(@Valid @RequestBody User user){
         User createdUser = service.create(user);
         return createdUser != null ? new ResponseEntity<>(createdUser, HttpStatus.CREATED) : new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
     }
@@ -75,7 +76,7 @@ public class UserController {
 
     // Update an existing user's details.
     @PutMapping("/update/{user_id}")
-    public ResponseEntity<User> update(@PathVariable("user_id") int user_id, @RequestBody User user) {
+    public ResponseEntity<User> update(@PathVariable("user_id") int user_id, @Valid @RequestBody User user) {
         User updatedUser = service.update(user_id, user);
         return updatedUser != null ? new ResponseEntity<>(updatedUser, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
