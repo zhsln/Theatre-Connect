@@ -1,5 +1,6 @@
 package kz.aitu.tc.controllers;
 
+import jakarta.validation.Valid;
 import kz.aitu.tc.models.Performance;
 import kz.aitu.tc.services.interfaces.PerformanceServiceInterface;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class PerformanceController {
     }
 
     // Get all performances.
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<Performance>> getAllBookings() {
         List<Performance> performances = service.getAll();
         return performances.isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(performances, HttpStatus.OK);
@@ -33,8 +34,8 @@ public class PerformanceController {
     }
 
     // Create a new performance.
-    @PostMapping("/")
-    public ResponseEntity<Performance> create(@RequestBody Performance performance){
+    @PostMapping
+    public ResponseEntity<Performance> create(@Valid @RequestBody Performance performance){
         Performance createdPerformance = service.create(performance);
         return createdPerformance != null ? new ResponseEntity<>(createdPerformance, HttpStatus.CREATED) : new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
     }
@@ -62,7 +63,7 @@ public class PerformanceController {
 
     // Update a specific performance by its ID.
     @PutMapping("/update/{performance_id}")
-    public ResponseEntity<Performance> update(@PathVariable("performance_id") int performance_id, @RequestBody Performance performance) {
+    public ResponseEntity<Performance> update(@PathVariable("performance_id") int performance_id, @Valid @RequestBody Performance performance) {
         Performance updatedPerformance = service.update(performance_id, performance);
         return updatedPerformance != null ? new ResponseEntity<>(updatedPerformance, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
