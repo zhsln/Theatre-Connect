@@ -13,4 +13,8 @@ public interface BookingRepositoryInterface extends JpaRepository<Booking, Integ
 
     // Find bookings for a specific performance. Returns a list of bookings linked to the performance's ID.
     List<Booking> findByPerformanceId(int performance_id);
+
+    // Find bookings with specific user_id, performance_id and seatNumber.
+    // This method is used to check is booking already exists or not.
+    List<Booking> findByUserIdAndPerformanceIdAndSeatNumber(int id, int id1, String seatNumber);
 }

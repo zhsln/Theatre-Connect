@@ -2,6 +2,7 @@ package kz.aitu.tc.controllers;
 
 import jakarta.validation.Valid;
 import kz.aitu.tc.models.User;
+import kz.aitu.tc.services.interfaces.UserServiceColumnGettersInterface;
 import kz.aitu.tc.services.interfaces.UserServiceInterface;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,27 +14,29 @@ import java.util.List;
 @RequestMapping("users")
 public class UserController {
     private final UserServiceInterface service;
+    private final UserServiceColumnGettersInterface serviceGetter;
 
-    public UserController(UserServiceInterface service) {
+    public UserController(UserServiceInterface service, UserServiceColumnGettersInterface serviceGetter) {
         this.service = service;
+        this.serviceGetter = serviceGetter;
     }
 
     // Get all users from the database.
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = service.getAll();
+        List<User> users = serviceGetter.getAll();
         return users.isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     // Get a single user by their ID.
     @GetMapping("/{user_id}")
     public ResponseEntity<User> getById(@PathVariable("user_id") int id) {
-        User user = service.getById(id);
+        User user = serviceGetter.getById(id);
         return user != null ? new ResponseEntity<>(user, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     // Create a new user.
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<User> create(@Valid @RequestBody User user){
         User createdUser = service.create(user);
         return createdUser != null ? new ResponseEntity<>(createdUser, HttpStatus.CREATED) : new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
@@ -42,28 +45,28 @@ public class UserController {
     // Get all users with a specific surname.
     @GetMapping("/surname/{user_surname}")
     public ResponseEntity<List<User>> getAllBySurname(@PathVariable("user_surname") String surname){
-        List<User> users = service.getBySurname(surname);
+        List<User> users = serviceGetter.getBySurname(surname);
         return users.isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     // Get all users with a specific name.
     @GetMapping("/name/{user_name}")
     public ResponseEntity<List<User>> getAllByName(@PathVariable("user_name") String name) {
-        List<User> users = service.getByName(name);
+        List<User> users = serviceGetter.getByName(name);
         return users.isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     // Get all users who are editors.
     @GetMapping("/editors/")
     public ResponseEntity<List<User>> getAllEditors() {
-        List<User> editors = service.getEditors();
+        List<User> editors = serviceGetter.getEditors();
         return editors.isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(editors, HttpStatus.OK);
     }
 
     // Get all users who are managers.
     @GetMapping("/managers/")
     public ResponseEntity<List<User>> getAllManagers() {
-        List<User> managers = service.getManagers();
+        List<User> managers = serviceGetter.getManagers();
         return managers.isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(managers, HttpStatus.OK);
     }
 

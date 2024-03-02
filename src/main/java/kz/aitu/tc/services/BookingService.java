@@ -1,12 +1,12 @@
 package kz.aitu.tc.services;
 
+import kz.aitu.tc.exceptionHandler.exceptions.AlreadyExistsException;
+import kz.aitu.tc.exceptionHandler.exceptions.ResourceNotFoundException;
 import kz.aitu.tc.models.Booking;
 import kz.aitu.tc.models.Performance;
 import kz.aitu.tc.models.User;
 import kz.aitu.tc.repositories.BookingRepositoryInterface;
-import kz.aitu.tc.services.interfaces.BookingServiceInterface;
-import kz.aitu.tc.services.interfaces.PerformanceServiceInterface;
-import kz.aitu.tc.services.interfaces.UserServiceInterface;
+import kz.aitu.tc.services.interfaces.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -14,26 +14,36 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
-public class BookingService implements BookingServiceInterface {
+public class BookingService implements BookingServiceInterface, BookingServiceColumnGettersInterface {
     private final BookingRepositoryInterface bookingRepositoryInterface;
-    private final UserServiceInterface userService;
-    private final PerformanceServiceInterface performanceService;
+    private final UserServiceColumnGettersInterface userServiceGetter;
+    private final PerformanceServiceColumnGettersInterface performanceServiceGetter;
 
     public BookingService(BookingRepositoryInterface bookingRepositoryInterface,
-                          UserServiceInterface userService,
-                          PerformanceServiceInterface performanceService) {
+                          UserServiceColumnGettersInterface userServiceGetter,
+                          PerformanceServiceColumnGettersInterface performanceServiceGetter) {
         this.bookingRepositoryInterface = bookingRepositoryInterface;
-        this.userService = userService;
-        this.performanceService = performanceService;
+        this.userServiceGetter = userServiceGetter;
+        this.performanceServiceGetter = performanceServiceGetter;
     }
 
     // Create booking.
     @Override
     public Booking create(Booking booking) {
         // Check if User and Performance are linked before creating a booking.
-        if (booking.getUser() == null || booking.getPerformance() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User and Performance are required for booking");
-        }
+        if (booking.getUser() == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User are required for booking");
+        if (booking.getPerformance() == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Performance are required for booking");
+
+        List<Booking> existingBookings = bookingRepositoryInterface.findByUserIdAndPerformanceIdAndSeatNumber(
+                booking.getUser().getId(),
+                booking.getPerformance().getId(),
+                booking.getSeatNumber()
+        );
+
+        if (!existingBookings.isEmpty())
+            throw new AlreadyExistsException("This booking already exists.");
 
         return bookingRepositoryInterface.save(booking);
     }
@@ -43,18 +53,18 @@ public class BookingService implements BookingServiceInterface {
     public Booking update(int id, Booking booking) {
         // Check if the booking exists before updating.
         Booking updatedBooking = bookingRepositoryInterface.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException("Booking with ID " + id + " not found."));
 
         // Check is valid User and Performance IDs are provided.
-        User user = userService.getById(booking.getUser().getId());
-        Performance performance = performanceService.getById(booking.getPerformance().getId());
+        User user = userServiceGetter.getById(booking.getUser().getId());
+        Performance performance = performanceServiceGetter.getById(booking.getPerformance().getId());
 
         if (user == null || performance == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid user or performance ID");
 
         updatedBooking.setUser(user);
         updatedBooking.setPerformance(performance);
-        updatedBooking.setSeat_number(booking.getSeat_number());
+        updatedBooking.setSeatNumber(booking.getSeatNumber());
 
         return bookingRepositoryInterface.save(updatedBooking);
     }
@@ -72,7 +82,7 @@ public class BookingService implements BookingServiceInterface {
     // Get a booking by its ID.
     @Override
     public Booking getBookingById(int id) {
-        return bookingRepositoryInterface.findById(id).orElse(null);
+        return bookingRepositoryInterface.findById(id).orElseThrow(() -> new ResourceNotFoundException("Booking with ID " + id + " not found."));
     }
 
     // Get all bookings made by a specific user.

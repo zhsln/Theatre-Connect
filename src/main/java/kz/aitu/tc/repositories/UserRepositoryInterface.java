@@ -19,4 +19,6 @@ public interface UserRepositoryInterface extends JpaRepository<User, Integer> {
 
     // Find users who are managers. Returns a list of users marked as managers.
     List<User> findByManagerTrue();
+
+    boolean existsByLogin(String login);
 }
