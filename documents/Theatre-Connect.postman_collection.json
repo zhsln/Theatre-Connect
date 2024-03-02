@@ -55,14 +55,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/users/40",
+							"raw": "localhost:8080/users/50",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"users",
-								"40"
+								"50"
 							]
 						}
 					},
@@ -103,7 +103,19 @@
 					"name": "getEditors",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users/editors/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"editors",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -111,7 +123,19 @@
 					"name": "getManagers",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users/managers/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"managers",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -133,7 +157,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/users/surname/Erkin",
+							"raw": "localhost:8080/users/surname/Amantur",
 							"host": [
 								"localhost"
 							],
@@ -141,7 +165,7 @@
 							"path": [
 								"users",
 								"surname",
-								"Erkin"
+								"Amantur"
 							]
 						}
 					},
@@ -154,7 +178,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"loginn\": \"Erikosh\",\r\n    \"password\": \"qwertyu\",\r\n    \"name\": \"Erasyl\",\r\n    \"surname\": \"Erkin\",\r\n    \"editor\": true,\r\n    \"manager\": true\r\n}",
+							"raw": "{\r\n    \"login\": \"Erikosh\",\r\n    \"password\": \"qwertyu\",\r\n    \"name\": \"Erasyl\",\r\n    \"surname\": \"Erkin\",\r\n    \"editor\": true,\r\n    \"manager\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -162,7 +186,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/users/update/44",
+							"raw": "localhost:8080/users/update/50",
 							"host": [
 								"localhost"
 							],
@@ -170,7 +194,7 @@
 							"path": [
 								"users",
 								"update",
-								"44"
+								"50"
 							]
 						}
 					},
@@ -182,14 +206,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/users/43",
+							"raw": "localhost:8080/users/50",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"users",
-								"43"
+								"50"
 							]
 						}
 					},
@@ -317,7 +341,19 @@
 					"name": "getPerformanceByDate",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/performances/date/2024-10-24",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"performances",
+								"date",
+								"2024-10-24"
+							]
+						}
 					},
 					"response": []
 				},
@@ -417,11 +453,14 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user\": {\r\n        \"id\": 46\r\n    },\r\n    \"performance\": {\r\n        \"id\": 16\r\n    },\r\n    \"seat_number\": \"Parterre: Row 13, Seat 10\"\r\n}",
+							"raw": "{\r\n    \"user\": {\r\n        \"id\": 53\r\n    },\r\n    \"performance\": {\r\n        \"id\": 21\r\n    },\r\n    \"seatNumber\": \"Parterre: Row 13, Seat 11\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -460,17 +499,147 @@
 				},
 				{
 					"name": "getByUserId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `\r",
+									"<style type=\"text/css\">\r",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+									"    .tftable tr {background-color:#ffffff;}\r",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+									"    .tftable tr:hover {background-color:#e0ffff;}\r",
+									"</style>\r",
+									"\r",
+									"<table class=\"tftable\" border=\"1\">\r",
+									"    <tr>\r",
+									"        <th>Booking ID</th>\r",
+									"        <th>User ID</th>\r",
+									"        <th>User Name</th>\r",
+									"        <th>User Surname</th>\r",
+									"        <th>Performance Title</th>\r",
+									"        <th>Date</th>\r",
+									"        <th>Time</th>\r",
+									"        <th>Venue</th>\r",
+									"        <th>Seat Number</th>\r",
+									"    </tr>\r",
+									"    \r",
+									"    {{#each response}}\r",
+									"        <tr>\r",
+									"            <td>{{bookingId}}</td>\r",
+									"            <td>{{user.id}}</td>\r",
+									"            <td>{{user.name}}</td>\r",
+									"            <td>{{user.surname}}</td>\r",
+									"            <td>{{performance.title}}</td>\r",
+									"            <td>{{performance.date}}</td>\r",
+									"            <td>{{performance.time}}</td>\r",
+									"            <td>{{performance.venue}}</td>\r",
+									"            <td>{{seat_number}}</td>\r",
+									"        </tr>\r",
+									"    {{/each}}\r",
+									"</table>\r",
+									"`;\r",
+									"\r",
+									"function constructVisualizerPayload() {\r",
+									"    return { response: pm.response.json() }\r",
+									"}\r",
+									"\r",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/bookings/user/45",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"bookings",
+								"user",
+								"45"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "getByPerformanceId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `\r",
+									"<style type=\"text/css\">\r",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+									"    .tftable tr {background-color:#ffffff;}\r",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+									"    .tftable tr:hover {background-color:#e0ffff;}\r",
+									"</style>\r",
+									"\r",
+									"<table class=\"tftable\" border=\"1\">\r",
+									"    <tr>\r",
+									"        <th>Booking ID</th>\r",
+									"        <th>User ID</th>\r",
+									"        <th>User Name</th>\r",
+									"        <th>User Surname</th>\r",
+									"        <th>Performance Title</th>\r",
+									"        <th>Date</th>\r",
+									"        <th>Time</th>\r",
+									"        <th>Venue</th>\r",
+									"        <th>Seat Number</th>\r",
+									"    </tr>\r",
+									"    \r",
+									"    {{#each response}}\r",
+									"        <tr>\r",
+									"            <td>{{bookingId}}</td>\r",
+									"            <td>{{user.id}}</td>\r",
+									"            <td>{{user.name}}</td>\r",
+									"            <td>{{user.surname}}</td>\r",
+									"            <td>{{performance.title}}</td>\r",
+									"            <td>{{performance.date}}</td>\r",
+									"            <td>{{performance.time}}</td>\r",
+									"            <td>{{performance.venue}}</td>\r",
+									"            <td>{{seat_number}}</td>\r",
+									"        </tr>\r",
+									"    {{/each}}\r",
+									"</table>\r",
+									"`;\r",
+									"\r",
+									"function constructVisualizerPayload() {\r",
+									"    return { response: pm.response.json() }\r",
+									"}\r",
+									"\r",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/bookings/performance/20",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"bookings",
+								"performance",
+								"20"
+							]
+						}
 					},
 					"response": []
 				},
@@ -481,7 +650,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user\": {\r\n        \"id\": 45\r\n    },\r\n    \"perfomance\": {\r\n        \"id\": 20\r\n    },\r\n    \"seat_number\": \"Balcony A: Row 2, Seat 5\"\r\n}",
+							"raw": "{\r\n    \"user\": {\r\n        \"id\": 52\r\n    },\r\n    \"performance\": {\r\n        \"id\": 21\r\n    },\r\n    \"seatNumber\": \"Balcony A: Row 2, Seat 5\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -489,7 +658,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/bookings/update/33",
+							"raw": "localhost:8080/bookings/update/45",
 							"host": [
 								"localhost"
 							],
@@ -497,7 +666,7 @@
 							"path": [
 								"bookings",
 								"update",
-								"33"
+								"45"
 							]
 						}
 					},
@@ -509,14 +678,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/bookings/",
+							"raw": "localhost:8080/bookings/33",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"bookings",
-								""
+								"33"
 							]
 						}
 					},
