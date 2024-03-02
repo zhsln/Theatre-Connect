@@ -1,6 +1,7 @@
 <p align = "center"><img src = "documents/images/Theatre‒Connect.png"></p>
 <h1 align = "center">Theatre-Connect</h1> 
 <p align = "center">
+  <img alt="GitHub Release" src="https://img.shields.io/github/v/release/zhsln/Theatre-Connect">
   <img alt="GitHub Release Date" src="https://img.shields.io/github/release-date/zhsln/Theatre-Connect">
   <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/zhsln/Theatre-Connect">
 </p>
