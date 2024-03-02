@@ -1,7 +1,10 @@
 <p align = "center"><img src = "documents/images/Theatre‒Connect.png"></p>
-<p align = "center"><em>Web service system for theatres.</em></p>
-<h2>Description</h2>
-Theatre-Connect - your ideal web service to immerse yourself in the world of drama and classical music. Browse performance schedules, book tickets, exchange impressions with other lovers of theatrical, music arts in Theatre-Connect.
+<h1 align = "center">Theatre-Connect</h1> 
+<p align = "center">
+  <img alt="GitHub Release Date" src="https://img.shields.io/github/release-date/zhsln/Theatre-Connect">
+  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/zhsln/Theatre-Connect">
+</p>
+<p align = "center">Theatre-Connect - your ideal web service to immerse yourself in the world of drama and classical music. Browse performance schedules, book tickets, exchange impressions with other lovers of theatrical, music arts in Theatre-Connect.</p>
 <h2>Installation Requirements</h2>
 <p>
 1. <a href = "https://www.java.com/en/download/">Install Java SDK 8 or higher.</a> <br/>
